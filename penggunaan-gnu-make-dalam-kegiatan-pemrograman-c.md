@@ -177,11 +177,11 @@ Lalu, berikut adalah file-file source code dari program sederhana yang nanti aka
 
 * `bebas.h`
 * `db.h`
-* `dbg.h`
-* `myread.h`
+* `dbg.h` https://gist.github.com/okaprinarjaya/422b85131cbe0d3538f3
+* `myread.h` https://gist.github.com/okaprinarjaya/72ada6da34eae4e4fd5e#file-myread-h
 * `bebas.c`
 * `db.c`
-* `myread.c`
+* `myread.c` https://gist.github.com/okaprinarjaya/72ada6da34eae4e4fd5e#file-myread-c
 * `great-software.c`
 * `Makefile`
 
