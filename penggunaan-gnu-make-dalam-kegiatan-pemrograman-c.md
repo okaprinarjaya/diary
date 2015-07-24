@@ -264,6 +264,41 @@ Dan berikut adalah susunan Makefile latihan 3 :
 
 Jika sudah selesai memodifikasi file Makefile nya, maka lanjutkan dengan menjalankan perintah `make` yg sama seperti di latihan 1. Bila perlu, jalankan perintah `make clean` terlebih dahulu agar file-file hasil proses build yg lama terhapus.
 
-
 ### Bagaimana GNU Make Berperilaku dengan Makefile ?
-//
+Bagian ini menjelaskan bagaimana perilaku program `make` saat melakukan proses build dengan mengkonsumsi informasi-informasi yang ada di file Makefile sebagai referensi untuk menjalankan tugasnya. Bagian tulisan ini sebenarnya adalah saduran berbahasa Indonesia dari manual GNU Make dari official documentation nya di http://www.gnu.org/software/make/manual/html_node/How-Make-Works.html#How-Make-Works .
+
+Saya menggunakan judul yang berbeda dari sumber aslinya dengan tujuan menyeragamkan metode / pendekatan saya dalam menjelaskan sesuatu. Pada intinya judul yang saya pilih punya tujuan yang sama dengan judul pada sumber aslinya yg jika diterjemahkan ke bahasa Indonesia menjadi: **Bagaimana `make` Memproses sebuah Makefile**
+
+#### Default Goal
+Dari sekian banyak rule yang tersusun / terdaftar di file Makefile kita, rule yang manakah yang pertamakali dieksekusi oleh `make` ? Jawabannya adalah rule yang posisinya berada paling atas / pertama dan dengan SYARAT nama target dari rule tersebut tidak diawali dengan karakter titik `.`contoh: `.PHONY` . Rule pertama yang dieksekusi oleh `make` saat `make` mulai dijalankan adalah disebut sebagai **default goal** .
+
+#### Menentukan Default Goal secara Custom
+Ingat, default goal adalah rule pertama yang dieksekusi oleh `make`. Bagaimana jika kita ada kebutuhan untuk menentukan sendiri / secara custom rule yang akan pertamakali dieksekusi oleh si `make` ? Sebenarnya file Makefile yang sudah kita susun sebelumnya sudah bisa mengeksekusi sebuah rule sesuai pilihan kita. Contohnya adalah saat menjalankan perintah: `make clean` . `clean` adalah nama target dari sebuah rule.
+
+`.PHONY` adalah sebuah special target. Ibaratkan sebuah bahasa pemrograman, `.PHONY` adalah reserved word / keyword dari sebuah bahasa pemrograman. Semua target yang terdaftar sebagai prerequiesites pada `.PHONY` akan dikeluarkan dari daftar urutan eksekusi, dan hanya bisa dieksekusi secara eksplisit. Pada file Makefile yang kita susun, kita sudah mendaftarkan target `clean` sebagai prerequiesites di 
+target `.PHONY` maka target `clean` sudah keluar dari daftar urutan eksekusi.
+
+#### Alur (Flow) Build Berdasarkan Rules
+Tentunya anda akan bertanya-tanya bagaimana sebuah default goal menentukan rule manakah yang selanjutnya akan dieksekusi? Bagaimana `make` menyusun urutan daftar eksekusi? Agar anda punya sedikit bayangan, mari kita lihat gambar berikut ini:
+
+![Build Dependencies 1](http://res.cloudinary.com/okaprinarjaya/image/upload/v1437587518/Build-Dependencies_t9rvaa.png)
+
+Berdasarkan pada gambar, maka bisa dikatakan file executable `great-software` adalah root target / target paling puncak. Berikut penjelasannya dimulai dari root target:
+
+`great-software`
+
+1. Rule paling pertama dieksekusi oleh `make`. Nama target dari rule adalah `great-software`. 
+2. Bahan-bahan / prerequiesites dari target `great-software` dicheck secara berurutan dari kiri ke kanan.
+3. Dari sini `make` menyusun daftar urutan eksekusi
+3. Check apakah `great-software.o` ADA ? jika TIDAK ADA, Check apakah `great-software.o` adalah sebagai target juga di sebuah rule? Jika YA sebagai target, maka eksekusi rule dengan nama target `great-software.o`
+4. Jika `great-software.o` ADA, maka hal yg sama check juga apakah dia adalah sebagai target juga? Jika ya, maka eksekusi rule dengan nama target `great-software.o`
+
+`great-software.o`
+
+1. Jika datang dari kondisi tidak ada, maka receipes langsung dijalankan
+2. Jika datang dari kondisi ada, maka sebelum menjalankan receipes, `make` melakukan checking apakah ada perubahan dari file `great-software.c` , `db.h`, `myread.h`, dan `bebas.h` ? Jika ya, maka jalankan receipes.
+3. Hasil dari berjalannya receipes adalah file `great-software.o`
+
+Begitu juga dengan prerequiesite - prerequiesite yang lainnya yang merupakan bagian / bahan dari sebuah target. Hal yang yg sama terjadi dengan mereka. 
+
+
