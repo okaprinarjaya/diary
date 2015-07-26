@@ -1,5 +1,7 @@
-Penggunaan GNU Make dalam Kegiatan Pemrograman C
-================================================
+---
+layout: post
+title: Penggunaan GNU Make dalam Kegiatan Pemrograman C
+---
 
 ## Pengantar
 Bagi orang-orang yang melakukan pengembangan sebuah  perangkat lunak di lingkungan apapun itu, Linux / Unix like systems atau Windows. Dan menggunakan bahasa pemrograman apapun itu. Pastinya membutuhkan tool / alat bantu untuk menggabungkan semua source code yang telah disusun sehingga menjadi satu kesatuan perangkat lunak yang siap dijalankan pada komputer.
